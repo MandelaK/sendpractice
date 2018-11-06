@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api, Resource
-from .models import Parcel
+from .models import Parcel, parcels
 
 class GenericParcel(Resource, Parcel):
     """This class contains generic parcel data > parcels without any
@@ -8,15 +8,15 @@ class GenericParcel(Resource, Parcel):
     def __init__(self):
         pass
 
-    def get(self:
-        parcels = Parcel.get_all()
-        return parcels
+    def get(self):
+        parcel = Parcel.get_all()
+        return parcel
 
 class SpecificParcel(Resource, Parcel):
     """This class contains methods for manipulating a specific parcel"""
     def get(self, id):
         """This method should return a parcel if we are sent it's id"""
-        for parcel in Parcel.parcels:
+        for parcel in parcels:
             if parcel["id"] == id:
                 return {"parcel" : parcel}
             else:
@@ -29,7 +29,7 @@ class SpecificParcel(Resource, Parcel):
     def put(self, id):
         """This method should be used to change the destination
         of a del"""
-        for parcel in Parcel.parcels:
+        for parcel in parcels:
             if parcel['id'] == id:
                 #change the destination
                 pass
@@ -39,7 +39,7 @@ class SpecificParcel(Resource, Parcel):
     def delete(self, id):
         """This method is for deleting a specific delivery from our
         database"""
-        for parcel in Parcel.parcels:
+        for parcel in parcels:
             if parcel['id'] == id:
                 #delete the parcel
                 pass
@@ -51,7 +51,7 @@ class User(Resource, Parcel):
     parcels"""
     def get(self, sender):
         """This method gets all deliveries sent by a user"""
-        for parcel in Parcel.parcels:
+        for parcel in parcels:
             if parcel['sender'] == sender:
                 return {"parcels" : parcel}
             else:
